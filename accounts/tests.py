@@ -42,24 +42,24 @@ class SignUpTests(TestCase):
         self.assertEqual(response.status_code,200)
     
     def test_signup_view_name(self):
-        response = self.response_get(reverse("singup"))
+        response = self.response_get(reverse("signupPage"))
         self.assertEqual(response.status_code,200)
         self.assertTemplateUsed(response,"registration/signupPage.html")
         
     def test_signup_form(self):
         response = self.client.post(reverse("signupPage"),
                                     {
-                                     'username':'testuser',
-                                     'email':'test@example.com',
-                                     'password1':'Test123',
-                                     'password2':'Test123',
+                                        'first_name':'test',
+                                        'last_name':'user',
+                                        'username':'testuser',
+                                        'email':'test1@example.com',
+                                        'age':18,
+                                        'password1':'@F6g**uJJZu&mU3',
+                                        'password2':'@F6g**uJJZu&mU3',
                                      })
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code,302)
         self.assertEqual(get_user_model().objects.all().count(),1)
         self.assertEqual(get_user_model().objects.all()[0].username,'testuser')
-        self.assertEqual(get_user_model().objects.all()[0].email,'test@example.com')
-        # self.assertEqual(get_user_model().objects.all()[0].first_name,'user1')
-        # self.assertEqual(get_user_model().objects.all()[0].last_name,'test')
-        # self.assertEqual(get_user_model().objects.all()[0].age,18)
+        self.assertEqual(get_user_model().objects.all()[0].email,'test1@example.com')
         
         
