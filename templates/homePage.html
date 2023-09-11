@@ -4,7 +4,7 @@
 
 {% block Content %}
     {% if user.is_authenticated  %}
-        <p>Hi {{ user.username }}, You are {{ user.age }} years old</p>
+        <p>Hi {{ user.first_name }}, You are {{ user.age }} years old</p>
         <p><a href="{% url 'logout' %}">Log Out</a> </p>
     {% else %}
         <p>Please <a href="{% url 'login' %}">Login</a> </p>
