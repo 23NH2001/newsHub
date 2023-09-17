@@ -6,6 +6,7 @@
     {% if user.is_authenticated  %}
         <p>Hi {{ user.first_name }}, You are {{ user.age }} years old</p>
         <p><a href="{% url 'logout' %}">Log Out</a> </p>
+        <a role="button" class="btn btn-primary" href="{% url 'articles_list' %}">View all articles</a>
     {% else %}
         <p>Please <a href="{% url 'login' %}">Login</a> </p>
         <p>Create a new <a href="{% url 'signupPage' %}">account</a> </p>
