@@ -3,8 +3,13 @@
 {% block Title %}Articles{% endblock Title %}
 
 {% block Content %}
+<Style>
+    .card-background-color{
+        background-color: rgb(52,53,65);
+    }
+</Style>
 {% for article in article_list %}
-<div class="card">
+<div class="card card-background-color">
     <div class="card-header">
         <span class="fw-bold">
             <a href="{% url 'articles_detail' article.pk %}">{{ article.title }}</a>
@@ -15,9 +20,9 @@
         {{ article.body }}
     </div>
     {% if article.author.pk == request.user.pk %}
-    <div class="card-footer text-center text-muted">
-        <a href="{% url 'articles_update' article.pk %}">Edit</a>
-        <a href="{% url 'articles_delete' article.pk %}">Delete</a>
+    <div class="card-footer text-muted">
+        <a role="button" class="btn btn-dark" href="{% url 'articles_update' article.pk %}">Edit</a>
+        <a role="button" class="btn btn-danger" href="{% url 'articles_delete' article.pk %}">Delete</a>
     </div>
     {% endif %}
 </div>

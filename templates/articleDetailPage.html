@@ -1,20 +1,53 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block Title %}{{ article.title }}{% endblock Title %}
 
 {% block Content %}
-<div class="article-entry">
-    <h2>{{ article.title }}</h2>
-    <p>Published on {{ article.date }} by {{ article.author }}</p>
-    <p>{{ article.body|linebreaks  }}</p>
-</div>
-<div>
+<style>
+    .detail-bg-color{
+        background-color: #343541;
+    }
+
+</style>
+<div class="card" style="background-color:#343541; border-radius:15px;">
+  <div class="card-body">
+    <h1 class="card-title">{{ article.title }}</h1>
+    <p> <i> By {{ article.author }} | {{ article.date }} </i></p>
+    <p class="card-text">{{ article.body|linebreaks  }}</p>
     {% if article.author.pk == request.user.pk %}
     <p>
-        <a href="{% url 'articles_update' article.pk %}">Edit</a>
-        <a href="{% url 'articles_delete' article.pk %}">Delete</a>
+        <a role="button" class="btn btn-dark" href="{% url 'articles_update' article.pk %}">Edit</a>
+        <a role="button" class="btn btn-danger" href="{% url 'articles_delete' article.pk %}">Delete</a>
     </p>
     {% endif %}
-    <p>Back to <a href="{% url 'articles_list' %}">home</a></p>
+  </div>
 </div>
-{% endblock Content %}
+
+<h3>Comments</h3>
+<div class="write-comment">
+    <form method="post">
+        {% csrf_token %}
+        <div class="media p-2" style="background-color:#343541; border-radius:15px;">
+            <div class="media-body">
+                <p>{{ form|crispy }}</p>
+            </div>
+            <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+    </form>
+
+</div>
+
+<div class="comments container d-flex mt-3 p-4">
+    {% for comment in article.comment_set.all %}
+
+    <div class="media p-2 m-1" style="background-color:#343541; border-radius:15px;">
+        <div class="media-body">
+            <h5 class="mt-0">Commented by {{ comment.author }}</h5>
+            <p>{{ comment }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+    {% endblock Content %}
